@@ -47,7 +47,7 @@ public class Calcreflexbackfacade {
 
             URI requrl = getReqURL(firstLine);
 
-            if (requrl.getPath().startsWith("/computar")){
+            if (requrl.getPath().startsWith("/compreflex")){
                 outputLine=   "HTTP/1.1 200 OK\r\n"
                         + "Content-Type: json\r\n" +
                           "\r\n" +    HttpConnectionExample.getResponse("/compreflex?" + requrl.getQuery());
@@ -92,7 +92,7 @@ public class Calcreflexbackfacade {
                 "                    document.getElementById(\"getrespmsg\").innerHTML =\n" +
                 "                    this.responseText;\n" +
                 "                }\n" +
-                "                xhttp.open(\"GET\", \"/computar?name=\"+nameVar);\n" +
+                "                xhttp.open(\"GET\", \"/compreflex?computar=\"+nameVar);\n" +
                 "                xhttp.send();\n" +
                 "            }\n" +
                 "        </script>\n" +

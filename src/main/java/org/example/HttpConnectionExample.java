@@ -33,7 +33,6 @@ public class HttpConnectionExample {
             }
             in.close();
 
-            // print result
             responseStr = response.toString();
             System.out.println(responseStr);
         } else {

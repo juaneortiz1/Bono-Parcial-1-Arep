@@ -2,12 +2,14 @@ package org.example;
 
 import java.io.IOException;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.*;
 
 
 public class Calcreflexback
 {
-    public static void main( String[] args ) throws IOException, URISyntaxException {
+    public static void main( String[] args ) throws IOException, URISyntaxException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(36000);
@@ -48,10 +50,11 @@ public class Calcreflexback
             URI requrl = getReqURL(firstLine);
 
             if (requrl.getPath().startsWith("/compreflex")){
+                String result = computeMathCommand(requrl.toString());
                 outputLine=  "HTTP/1.1 200 OK\r\n"
                         + "Content-Type: application/json\r\n"
                         + "\r\n"
-                        + "{name:\"John\", age:31, city:\"New York\"}";
+                        +result;
             }
             else {
                 outputLine = htmlClient();
@@ -85,5 +88,35 @@ public class Calcreflexback
     public static URI getReqURL(String firstline) throws MalformedURLException, URISyntaxException {
         String rurl = firstline.split(" ")[1];
         return new URI(rurl) ;
+    }
+    public  static  String computeMathCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        String mathcommand = command.split("=")[1];
+        System.out.println(mathcommand);
+        Class c = Math.class;
+        Class[] parameterTypes = {double.class};
+        Method m = c.getDeclaredMethod("abs", parameterTypes);
+        Object[] params = {-2.0};
+        String resp = m.invoke(mathcommand, (Object) params).toString();
+
+        return resp;
+    }
+
+    public static double[] bblsort(double[] bblarray) {
+        boolean change;
+        for (int i = 0; i < bblarray.length - 1; i++) {
+            change = false;
+            for (int j = 0; j < bblarray.length - 1 - i; j++) {
+                if (bblarray[j] > bblarray[j + 1]) {
+                    double temp = bblarray[j];
+                    bblarray[j] = bblarray[j + 1];
+                    bblarray[j + 1] = temp;
+                    change = true;
+                }
+            }
+            if (!change) {
+                break;
+            }
+        }
+        return bblarray;
     }
 }
