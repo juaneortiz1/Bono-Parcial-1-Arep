@@ -44,6 +44,11 @@ To test the application, you can send HTTP GET requests using a web browser or a
 Through the browser or client, you can see the results of the calculations in JSON format. 
 
 
+
+https://github.com/user-attachments/assets/f0ecf217-1c00-4d13-8668-22fa82b3d30b
+
+
+
 ### Built With
 - Java
 - Apache Maven
