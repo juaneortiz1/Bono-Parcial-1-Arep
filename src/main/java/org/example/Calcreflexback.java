@@ -89,19 +89,71 @@ public class Calcreflexback
         String rurl = firstline.split(" ")[1];
         return new URI(rurl) ;
     }
-    public  static  String computeMathCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static String computeMathCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String mathcommand = command.split("=")[1];
-        System.out.println(mathcommand);
-        Class c = Math.class;
-        Class[] parameterTypes = {double.class};
-        Method m = c.getDeclaredMethod("abs", parameterTypes);
-        Object[] params = {-2.0};
-        String resp = m.invoke(mathcommand, (Object) params).toString();
+        String[] parts = mathcommand.split("\\(");
+        String methodName = parts[0];
+        String[] params = parts[1].replace(")", "").split(",");
 
-        return resp;
+        Double[] paramValues = new Double[params.length];
+
+        for (int i = 0; i < params.length; i++) {
+            paramValues[i] = Double.parseDouble(params[i].trim());
+        }
+
+        if (methodName.equals("add")) {
+            Double result = paramValues[0] + paramValues[1];
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("subtract")) {
+            Double result = paramValues[0] - paramValues[1];
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("multiply")) {
+            Double result = paramValues[0] * paramValues[1];
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("divide")) {
+            if (paramValues[1] == 0) {
+                return "{\"error\": \"Division by zero\"}";
+            }
+
+            Double result = paramValues[0] / paramValues[1];
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("max")) {
+            Double result = Math.max(paramValues[0], paramValues[1]);
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("min")) {
+            Double result = Math.min(paramValues[0], paramValues[1]);
+            return "{\"result\": " + result.toString() + "}";
+        } else if (methodName.equals("bbl")) {
+            Double[] sortedArray = bblsort(paramValues);
+            return arrayToJson(sortedArray);
+        }
+
+        Class<?> c = Math.class;
+        Class<?>[] parameterTypes = new Class<?>[paramValues.length];
+        for (int i = 0; i < paramValues.length; i++) {
+            parameterTypes[i] = double.class;
+        }
+
+        Method method = c.getMethod(methodName, parameterTypes);
+        Object result = method.invoke(null, (Object[]) paramValues);
+        return "{\"result\": " + result.toString() + "}";
     }
 
-    public static double[] bblsort(double[] bblarray) {
+
+    public static String arrayToJson(Double[] array) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"result\": [");
+        for (int i = 0; i < array.length; i++) {
+            sb.append(array[i]);
+            if (i < array.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]}");
+        return sb.toString();
+    }
+
+    public static Double[] bblsort(Double[] bblarray) {
         boolean change;
         for (int i = 0; i < bblarray.length - 1; i++) {
             change = false;

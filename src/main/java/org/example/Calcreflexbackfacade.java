@@ -50,7 +50,7 @@ public class Calcreflexbackfacade {
             if (requrl.getPath().startsWith("/compreflex")){
                 outputLine=   "HTTP/1.1 200 OK\r\n"
                         + "Content-Type: json\r\n" +
-                          "\r\n" +    HttpConnectionExample.getResponse("/compreflex?" + requrl.getQuery());
+                          "\r\n" +   HttpConnectionExample.getResponse("/compreflex?" + requrl.getQuery());
             }
             else {
                 outputLine = htmlClient();
@@ -71,12 +71,12 @@ public class Calcreflexbackfacade {
                 "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "    <head>\n" +
-                "        <title>Form Example</title>\n" +
+                "        <title>Calculator</title>\n" +
                 "        <meta charset=\"UTF-8\">\n" +
                 "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "    </head>\n" +
                 "    <body>\n" +
-                "        <h1>Form with GET</h1>\n" +
+                "        <h1>Calculator</h1>\n" +
                 "        <form action=\"/hello\">\n" +
                 "            <label for=\"name\">Name:</label><br>\n" +
                 "            <input type=\"text\" id=\"name\" name=\"name\" value=\"John\"><br><br>\n" +
