@@ -41,7 +41,7 @@ To test the application, you can send HTTP GET requests using a web browser or a
 - To perform addition: `http://localhost:36000/compreflex?computar=add(5,3)`
 - To sort an array: `http://localhost:36000/compreflex?computar=bbl(3,1,2)`
 
-Through the browser or client, you can see the results of the calculations in JSON format. 
+Through the browser or client by accessing http://localhost:35000, you can see the results of the calculations in JSON format. 
 
 
 
